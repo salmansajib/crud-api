@@ -2,9 +2,13 @@ import express from "express";
 import mongoose from "mongoose";
 import Product from "./models/product.model.js";
 import colors from "colors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const PORT = 3000;
+const mongoURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_CLUSTER}.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 
 app.use(express.json());
 
@@ -78,9 +82,7 @@ app.delete("/api/product/:id", async (req, res) => {
 
 // connect to database
 mongoose
-  .connect(
-    "mongodb+srv://sfsajib:U4OVkpka1GY3uYa0@backenddb.lidfaha.mongodb.net/Node-API?retryWrites=true&w=majority"
-  )
+  .connect(mongoURI)
   .then(() => console.log("Connected!"))
   .catch((err) => {
     console.error("Connection failed:", err.message);
